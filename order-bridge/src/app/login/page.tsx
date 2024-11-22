@@ -3,6 +3,10 @@ import { Button, Label, TextInput } from "flowbite-react";
 import Image from "next/image";
 
 const LoginPage = () => {
+  const handleLogin = () => {
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/amazon`;
+  };
+
   return (
     <div className="flex h-screen w-screen flex-row">
       <div className="mx-auto flex h-full min-w-[50%] flex-col">
@@ -60,7 +64,7 @@ const LoginPage = () => {
                   sizing="sm"
                 />
               </div>
-              <Button className="w-full" color="primary" size="sm">
+              <Button className="w-full" color={"primary"} size="sm">
                 Login
               </Button>
             </div>
@@ -69,6 +73,7 @@ const LoginPage = () => {
 
             <div className="flex w-full flex-col gap-4">
               <Button
+                onClick={handleLogin}
                 color="light"
                 size="sm"
                 className="flex w-full flex-row items-center justify-center font-medium transition-colors duration-200 ease-in-out hover:ring-1 hover:ring-app focus:ring focus:ring-app"

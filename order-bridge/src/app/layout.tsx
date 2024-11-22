@@ -1,3 +1,4 @@
+import { AuthProvider } from "@/context/authContext";
 import customTheme from "@/utils/flowbiteCustomTheme";
 import { Flowbite } from "flowbite-react";
 import type { Metadata } from "next";
@@ -21,10 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${outfitFont.variable} font-outfit antialiased`}
-      >
-       <Flowbite theme={{ theme: customTheme }}>{children}</Flowbite>
+      <body className={`${outfitFont.variable} font-outfit antialiased`}>
+        <AuthProvider>
+          <Flowbite theme={{ theme: customTheme }}>{children}</Flowbite>
+        </AuthProvider>
       </body>
     </html>
   );

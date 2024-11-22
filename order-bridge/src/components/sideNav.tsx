@@ -1,15 +1,20 @@
 "use client";
 
 import {
-    faArrowRightFromBracket,
-    faCoins,
-    faGamepad,
-    faHouse,
+  faArrowRightFromBracket,
+  faBoxOpen,
+  faChartSimple,
+  faGear,
+  faHouse,
+  faPaperPlane,
+  faWarehouse,
 } from "@fortawesome//free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { usePathname } from "next/navigation";
 
 const SideNav = () => {
   //   const { user, getRole, setUser, getOrgType, isSuperAdmin } = useAuth();
@@ -31,8 +36,11 @@ const SideNav = () => {
 
   //   const organizationType = getOrgType();
   //   const role = getRole();
-  //   const pathname = usePathname();
-  //   const orgId = pathname.split('/')[1];
+  const pathname = usePathname();
+  const currentPage = pathname.split("/")[1];
+  const previousPage = pathname.split("/").slice(-2)[0];
+
+  console.log("Current Page: ", previousPage);
 
   //   const getInitials = () => {
   //     if (!user) return '';
@@ -70,29 +78,73 @@ const SideNav = () => {
       <div className="flex w-full flex-col justify-between py-8 text-slate-primary">
         <div className="flex w-full flex-col gap-5">
           <Link
-            href={"#"}
-            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out bg-slate-bg-secondary "
+            href={`/`}
+            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out ${
+              currentPage === ""
+                ? "bg-slate-bg-secondary text-app"
+                : "hover:bg-slate-bg-secondary hover:text-app"
             }`}
           >
-            <FontAwesomeIcon
-              className="h-auto w-8 text-xl text-app"
-              icon={faHouse}
-            />
-            <span className="text-base text-app font-medium">Home</span>
+            <FontAwesomeIcon className="h-auto w-6" icon={faHouse} />
+            <span className="text-base font-medium">Home</span>
           </Link>
           <Link
-            href={`#`}
-            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out hover:bg-slate-bg-secondary hover:text-app"}`}
+            href={`/analytics`}
+            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out ${
+              currentPage === "analytics"
+                ? "bg-slate-bg-secondary text-app"
+                : "hover:bg-slate-bg-secondary hover:text-app"
+            }`}
           >
-            <FontAwesomeIcon className="h-auto w-8 text-xl" icon={faGamepad} />
-            <span className="text-base font-medium">Games</span>
+            <FontAwesomeIcon className="h-auto w-6" icon={faChartSimple} />
+            <span className="text-base font-medium">Analytics</span>
           </Link>
           <Link
-            href={`#`}
-            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out hover:bg-slate-bg-secondary hover:text-app"}`}
+            href={`/orders`}
+            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out ${
+              currentPage === "orders"
+                ? "bg-slate-bg-secondary text-app"
+                : "hover:bg-slate-bg-secondary hover:text-app"
+            }`}
           >
-            <FontAwesomeIcon className="h-auto w-8 text-xl" icon={faCoins} />
-            <span className="text-base font-medium">Coins</span>
+            <FontAwesomeIcon className="h-auto w-6" icon={faBoxOpen} />
+            <span className="text-base font-medium">Orders</span>
+          </Link>
+          <Link
+            href={`/inventory`}
+            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out ${
+              currentPage === "inventory"
+                ? "bg-slate-bg-secondary text-app"
+                : "hover:bg-slate-bg-secondary hover:text-app"
+            }`}
+          >
+            <FontAwesomeIcon className="h-auto w-6" icon={faWarehouse} />
+            <span className="text-base font-medium">Inventory</span>
+          </Link>
+          <Link
+            href={`/forecasting`}
+            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out ${
+              currentPage === "forecasting"
+                ? "bg-slate-bg-secondary text-app"
+                : "hover:bg-slate-bg-secondary hover:text-app"
+            }`}
+          >
+            <FontAwesomeIcon className="h-auto w-6" icon={faPaperPlane} />
+            <span className="text-base font-medium">
+              Forecasting
+              <span className="text-app text-xs font-bold ml-2">AI</span>
+            </span>
+          </Link>
+          <Link
+            href={`/settings`}
+            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out ${
+              currentPage === "settings"
+                ? "bg-slate-bg-secondary text-app"
+                : "hover:bg-slate-bg-secondary hover:text-app"
+            }`}
+          >
+            <FontAwesomeIcon className="h-auto w-6" icon={faGear} />
+            <span className="text-base font-medium">Settings</span>
           </Link>
         </div>
       </div>
@@ -105,10 +157,13 @@ const SideNav = () => {
 
         <div className="flex w-full flex-col overflow-hidden">
           <div className="truncate text-sm text-slate-primary">Adnan K</div>
+          <div className="truncate text-xs text-slate-secondary">
+            adnan@amazon.com
+          </div>
         </div>
-        <Button color="secondary" className="border-none text-slate-secondary">
+        <Button color="transparent" className="border-none">
           <FontAwesomeIcon
-            className="h-full w-auto text-xl"
+            className="h-full w-4 text-slate-secondary"
             icon={faArrowRightFromBracket}
           />
         </Button>
