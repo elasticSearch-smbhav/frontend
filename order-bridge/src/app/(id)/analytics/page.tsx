@@ -81,7 +81,7 @@ const Page = () => {
             />
           </div>
         </div>
-        <Button color="primary" size="sm">
+        <Button color="purple" size="sm">
           Sync Data
           <FontAwesomeIcon icon={faRefresh} className="text-base ml-2" />
         </Button>

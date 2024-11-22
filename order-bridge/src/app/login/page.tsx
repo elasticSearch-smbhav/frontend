@@ -64,7 +64,7 @@ const LoginPage = () => {
                   sizing="sm"
                 />
               </div>
-              <Button className="w-full" color={"primary"} size="sm">
+              <Button className="w-full" color={"purple"} size="sm">
                 Login
               </Button>
             </div>
