@@ -1,15 +1,21 @@
 "use client";
 
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Breadcrumb, Button, Datepicker } from "flowbite-react";
 
 const Page = () => {
   return (
     <>
-      <Breadcrumb>
+          <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item>
-          <div className="rounded-lg bg-app-bg-primary p-2 text-app">Home</div>
+          <div className="rounded-lg text-app">
+            <FontAwesomeIcon
+              className="mr-2 flex-row items-center justify-center"
+              icon={faHouse}
+            />
+            Home
+          </div>
         </Breadcrumb.Item>
       </Breadcrumb>
 
@@ -17,7 +23,7 @@ const Page = () => {
         <div className="text-3xl font-semibold text-slate-primary">
           Welcome back, Adnan
         </div>
-        <div className="text-base text-slate-tertiary">
+        <div className="text-sm text-slate-secondary">
           See overview of your business
         </div>
       </div>

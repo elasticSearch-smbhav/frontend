@@ -2,7 +2,7 @@
 
 import BarChartComponent from "@/components/charts/barChart";
 import LineChartComponent from "@/components/charts/lineChart";
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { faChartSimple, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Breadcrumb, Button, Datepicker } from "flowbite-react";
 
@@ -46,8 +46,12 @@ const Page = () => {
   return (
     <>
       <Breadcrumb>
-        <Breadcrumb.Item>
-          <div className="rounded-lg bg-app-bg-primary p-2 text-app">
+      <Breadcrumb.Item>
+          <div className="rounded-lg text-app">
+            <FontAwesomeIcon
+              className="mr-2 flex-row items-center justify-center"
+              icon={faChartSimple}
+            />
             Analytics
           </div>
         </Breadcrumb.Item>
@@ -57,8 +61,8 @@ const Page = () => {
         <div className="text-3xl font-semibold text-slate-primary">
           Analytics
         </div>
-        <div className="text-base text-slate-tertiary">
-          Your current summary and activity.
+        <div className="text-sm text-slate-secondary">
+          Your current business analytics
         </div>
       </div>
       <div className="flex items-center justify-between w-full">

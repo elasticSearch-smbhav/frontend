@@ -68,7 +68,7 @@ const customTheme: CustomFlowbiteTheme = {
     body: {
       base: 'group/body',
       cell: {
-        base: 'px-6 py-4 group-first/body:group-first/row:first:rounded-tl-lg group-first/body:group-first/row:last:rounded-tr-lg ',
+        base: 'px-6 py-4 group-first/body:group-first/row:first:rounded-tl-lg group-first/body:group-first/row:last:rounded-tr-lg',
       },
     },
   },
