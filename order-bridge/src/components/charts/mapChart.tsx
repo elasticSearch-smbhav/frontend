@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useEffect, useRef } from "react";
 
 interface LocationData {
   name: string;
@@ -96,9 +96,11 @@ const MapChartComponent = ({ data }: MapChartProps) => {
 
       // Add markers for each location with custom icon
       randomData.forEach((location) => {
-        L.marker([location.lat, location.lng], { icon: customIcon })
-          .addTo(mapInstance.current)
-          .bindPopup(`<b>${location.name}</b><br>Sales: ₹${location.value.toLocaleString()}`);
+        if (mapInstance.current) {
+          L.marker([location.lat, location.lng], { icon: customIcon })
+            .addTo(mapInstance.current)
+            .bindPopup(`<b>${location.name}</b><br>Sales: ₹${location.value.toLocaleString()}`);
+        }
       });
     }
 
