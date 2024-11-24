@@ -1,23 +1,10 @@
 "use client";
 
-import axiosInstance from "@/utils/axiosInstance";
 import { faHouse, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Breadcrumb, Button, Datepicker } from "flowbite-react";
-import { useEffect } from "react";
 
 const Page = () => {
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await axiosInstance.get("http://localhost:8080/listings");
-
-      constdata = await data.json();
-      console.log(typeof data);
-    };
-
-    fetchData();
-  }, []);
-
   return (
     <>
       <Breadcrumb aria-label="Default breadcrumb example">

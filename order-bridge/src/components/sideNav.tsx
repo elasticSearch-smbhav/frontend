@@ -6,6 +6,7 @@ import {
   faChartSimple,
   faGear,
   faHouse,
+  faMessage,
   faPaperPlane,
   faWarehouse,
 } from "@fortawesome//free-solid-svg-icons";
@@ -132,6 +133,20 @@ const SideNav = () => {
             <FontAwesomeIcon className="h-auto w-6" icon={faPaperPlane} />
             <span className="text-base font-medium">
               Forecasting
+              <span className="text-app text-xs font-bold ml-2">AI</span>
+            </span>
+          </Link>
+          <Link
+            href={`/chat`}
+            className={`flex w-full items-center gap-3 rounded-lg p-2 transition-all duration-200 ease-in-out ${
+              currentPage === "chat"
+                ? "bg-slate-bg-secondary text-app"
+                : "hover:bg-slate-bg-secondary hover:text-app"
+            }`}
+          >
+            <FontAwesomeIcon className="h-auto w-6" icon={faMessage} />
+            <span className="text-base font-medium">
+              Chatbot
               <span className="text-app text-xs font-bold ml-2">AI</span>
             </span>
           </Link>

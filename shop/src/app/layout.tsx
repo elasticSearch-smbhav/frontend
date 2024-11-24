@@ -22,7 +22,7 @@ export default function RootLayout({
           <Flowbite theme={{ theme: customTheme }}>
             <>
               <Header />
-              {children}{" "}
+              {children}
             </>
           </Flowbite>
         </CartProvider>
