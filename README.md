@@ -2,8 +2,8 @@
 
 This repository contains two Next.js applications:
 
-1. **OrderBridge**: A console for sellers to manage and analyze there business Amazon MCF.
-2. **Shop**: A user-facing app for users to browse and purchase products.
+1. **OrderBridge**: A console for sellers to manage and analyze their business with Amazon MCF API.
+2. **Shop**: A user-facing app for to browse and purchase products.
 
 ---
 
