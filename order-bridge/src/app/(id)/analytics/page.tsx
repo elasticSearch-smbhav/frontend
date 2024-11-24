@@ -1,53 +1,64 @@
 "use client";
-
+import dynamic from 'next/dynamic';
 import BarChartComponent from "@/components/charts/barChart";
 import LineChartComponent from "@/components/charts/lineChart";
-import WithAuth from "@/hoc/withAuth";
+import PieChartComponent from "@/components/charts/pieChart"; // For category/product breakdown
 import { faChartSimple, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Breadcrumb, Button, Datepicker } from "flowbite-react";
+import WithAuth from "@/hoc/withAuth";
+
+// Dynamically import MapChartComponent with SSR disabled
+const MapChartComponent = dynamic(() => import('@/components/charts/mapChart'), { ssr: false });
 
 interface DataPoint {
   name: string;
   value: number;
 }
 
-const data: DataPoint[] = [
-  {
-    name: "Wed",
-    value: 4000,
-  },
-  {
-    name: "Thu",
-    value: 1000,
-  },
-  {
-    name: "Fri",
-    value: 2000,
-  },
-  {
-    name: "Sat",
-    value: 6000,
-  },
-  {
-    name: "Sun",
-    value: 8000,
-  },
-  {
-    name: "Mon",
-    value: 4000,
-  },
-  {
-    name: "Tue",
-    value: 3500,
-  },
+const ordersReceived: DataPoint[] = [
+  { name: "Wed", value: 1253 },
+  { name: "Thu", value: 559 },
+  { name: "Fri", value: 859 },
+  { name: "Sat", value: 1763 },
+  { name: "Sun", value: 2323 },
+  { name: "Mon", value: 1300 },
+  { name: "Tue", value: 1127 },
+];
+
+const totalOrderValue: DataPoint[] = [
+  { name: "Wed", value: 12530 },
+  { name: "Thu", value: 3590 },
+  { name: "Fri", value: 7590 },
+  { name: "Sat", value: 17890 },
+  { name: "Sun", value: 23990 },
+  { name: "Mon", value: 13500 },
+  { name: "Tue", value: 10620 },
+];
+
+const productCategoryData = [
+  { name: "Electronics", value: 45500 },
+  { name: "Fashion", value: 29800 },
+  { name: "Home Decor", value: 19900 },
+  { name: "Books", value: 15450 },
+];
+
+const customerData = [
+  { name: "New Customers", value: 58 },
+  { name: "Returning Customers", value: 42 },
+];
+
+const geographicalSalesData = [
+  { name: "New York", lat: 40.7128, lng: -74.0060, value: 5284 },
+  { name: "San Francisco", lat: 37.7749, lng: -122.4194, value: 3420 },
+  { name: "Los Angeles", lat: 34.0522, lng: -118.2437, value: 2123 },
 ];
 
 const Page = () => {
   return (
     <>
       <Breadcrumb>
-      <Breadcrumb.Item>
+        <Breadcrumb.Item>
           <div className="rounded-lg text-app">
             <FontAwesomeIcon
               className="mr-2 flex-row items-center justify-center"
@@ -58,7 +69,7 @@ const Page = () => {
         </Breadcrumb.Item>
       </Breadcrumb>
 
-      <div className="flex flex-col items-start justify-start w-full">
+      <div className="flex flex-col items-start justify-start w-full mb-6">
         <div className="text-3xl font-semibold text-slate-primary">
           Analytics
         </div>
@@ -66,24 +77,16 @@ const Page = () => {
           Your current business analytics
         </div>
       </div>
-      <div className="flex items-center justify-between w-full">
-        <div className="flex gap-2">
+
+      <div className="flex items-center justify-between w-full mb-6">
+        <div className="flex gap-4">
           <div className="flex items-center justify-center gap-2">
             <div>Start:</div>
-            <Datepicker
-            // value={startDate === '' ? '' : formatDate(startDate)}
-            // onSelectedDateChanged={handleStartDate}
-            // maxDate={endDate === '' ? new Date() : new Date(endDate)}
-            />
+            <Datepicker placeholder="Select start date" />
           </div>
           <div className="flex items-center justify-center gap-2">
             <div>End:</div>
-            <Datepicker
-            // value={endDate === "" ? "" : formatDate(endDate)}
-            // onSelectedDateChanged={handleEndDate}
-            // minDate={startDate === "" ? undefined : new Date(startDate)}
-            // maxDate={new Date()}
-            />
+            <Datepicker placeholder="Select end date" />
           </div>
         </div>
         <Button color="purple" size="sm">
@@ -91,23 +94,61 @@ const Page = () => {
           <FontAwesomeIcon icon={faRefresh} className="text-base ml-2" />
         </Button>
       </div>
-      <div className="w-full p-6 border rounded-xl flex flex-col justify-start items-start gap-8">
-        <div className="text-slate-primary font-medium text-xl">
-          Orders received
+
+      {/* KPI Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-6">
+        <div className="p-4 bg-white border rounded-lg text-center shadow-sm">
+          <div className="text-xl font-bold text-slate-primary">₹1,25,231</div>
+          <div className="text-sm text-slate-secondary">Total Revenue</div>
         </div>
-        <BarChartComponent data={data} />
+        <div className="p-4 bg-white border rounded-lg text-center shadow-sm">
+          <div className="text-xl font-bold text-slate-primary">42</div>
+          <div className="text-sm text-slate-secondary">Total Orders</div>
+        </div>
+        <div className="p-4 bg-white border rounded-lg text-center shadow-sm">
+          <div className="text-xl font-bold text-slate-primary">₹2981</div>
+          <div className="text-sm text-slate-secondary">Avg Order Value</div>
+        </div>
+        <div className="p-4 bg-white border rounded-lg text-center shadow-sm">
+          <div className="text-xl font-bold text-slate-primary">42%</div>
+          <div className="text-sm text-slate-secondary">Customer Retention</div>
+        </div>
       </div>
-      <div className="w-full p-6 border rounded-xl flex flex-col justify-start items-start gap-8">
+
+      {/* Charts Section */}
+      <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
         <div className="text-slate-primary font-medium text-xl">
-          SLA Compliance Score of Fulfilled Orders
+          Orders Received
         </div>
-        <LineChartComponent data={data} />
+        <BarChartComponent data={ordersReceived} />
       </div>
-      <div className="w-full p-6 border rounded-xl flex flex-col justify-start items-start gap-8">
+
+      <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
         <div className="text-slate-primary font-medium text-xl">
-          Total order value
+          Total Order Value
         </div>
-        <BarChartComponent data={data} />
+        <LineChartComponent data={totalOrderValue} />
+      </div>
+
+      <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
+        <div className="text-slate-primary font-medium text-xl">
+          Sales by Product Category
+        </div>
+        <PieChartComponent data={productCategoryData} />
+      </div>
+
+      <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
+        <div className="text-slate-primary font-medium text-xl">
+          Customer Insights
+        </div>
+        <PieChartComponent data={customerData} />
+      </div>
+
+      <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
+        <div className="text-slate-primary font-medium text-xl">
+          Geographical Sales Insights
+        </div>
+        <MapChartComponent data={geographicalSalesData} />
       </div>
     </>
   );
