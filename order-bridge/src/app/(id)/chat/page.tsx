@@ -2,6 +2,7 @@
 
 import { useChatbot } from "@/context/chatbotContext";
 import WithAuth from "@/hoc/withAuth";
+import axiosInstance from "@/utils/axiosInstance";
 import { Button, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -23,28 +24,17 @@ const Page = () => {
     scrollToBottom();
 
     try {
-      // Send the prompt to the backend API
-      const response = await fetch("http://127.0.0.1:8080/getChatResponse", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: prompt,
-        }),
+      const response = await axiosInstance.post("/getChatResponse", {
+        prompt,
       });
 
-      // Check if the response is successful
-      if (response.ok) {
-        const data = await response.json();
-
-        // Extract the answer from the API response and add it to the chat
+      if (response.status === 200) {
+        const data = response.data;
         addMessage(data.answer);
       } else {
         addMessage("Sorry, I couldn't fetch an answer at the moment.");
       }
     } catch (error) {
-      // In case of an error (e.g., network failure)
       addMessage("Error: Unable to contact the server.");
     }
 
@@ -82,7 +72,12 @@ const Page = () => {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
         />
-        <Button disabled={loading} onClick={sendPrompt} color="purple" className="w-32">
+        <Button
+          disabled={loading}
+          onClick={sendPrompt}
+          color="purple"
+          className="w-32"
+        >
           Ask Chatbot
         </Button>
       </div>
