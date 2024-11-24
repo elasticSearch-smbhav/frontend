@@ -9,16 +9,17 @@ const Page = () => {
   const { messages, addMessage } = useChatbot();
   const [prompt, setPrompt] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const sendPrompt = async () => {
-    addMessage(prompt); // Add user's prompt to the chat
-    setPrompt(""); // Clear the input field
+    setLoading(true);
+    addMessage(prompt);
+    setPrompt("");
 
-    // Scroll to the bottom to show the new messages
     scrollToBottom();
 
     try {
@@ -36,7 +37,7 @@ const Page = () => {
       // Check if the response is successful
       if (response.ok) {
         const data = await response.json();
-        
+
         // Extract the answer from the API response and add it to the chat
         addMessage(data.answer);
       } else {
@@ -49,6 +50,7 @@ const Page = () => {
 
     // Scroll to the bottom to show the response
     scrollToBottom();
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -80,7 +82,7 @@ const Page = () => {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
         />
-        <Button onClick={sendPrompt} color="purple" className="w-32">
+        <Button disabled={loading} onClick={sendPrompt} color="purple" className="w-32">
           Ask Chatbot
         </Button>
       </div>
