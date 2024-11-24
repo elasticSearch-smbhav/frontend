@@ -2,6 +2,7 @@
 
 import LineChartComponent from "@/components/charts/lineChart";
 import WithAuth from "@/hoc/withAuth";
+import axiosInstance from "@/utils/axiosInstance";
 import {
     faPaperPlane,
     faRefresh,
@@ -9,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Breadcrumb, Button, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface DataPoint {
   name: string;
@@ -18,37 +19,55 @@ interface DataPoint {
 
 const data: DataPoint[] = [
   {
-    name: "Nov",
+    name: "Dec 1",
     value: 35,
   },
   {
-    name: "Dec",
-    value: 95,
+    name: "Dec 8",
+    value: 56,
   },
   {
-    name: "Jan",
-    value: 10,
+    name: "Dec 15",
+    value: 72,
   },
   {
-    name: "Feb",
-    value: 5,
+    name: "Dec 22",
+    value: 92,
   },
   {
-    name: "Mar",
-    value: 5,
+    name: "Dec 29",
+    value: 32,
   },
   {
-    name: "Apr",
+    name: "Jan 5",
     value: 5,
   },
 ];
 
 const Page = () => {
-  const [selectedItemId, setSelectedItemId] = useState("");
-  const [selectedItemName, setSelectedItemName] = useState("Santa Hat");
+  const [selectedItemName, setSelectedItemName] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
-  const [searchResults, setSearchResults] = useState<any>([]);
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [forecastData, setForecastData] = useState<any[]>([]);
+
+  const fetchForecastData = async () => {
+    try {
+      const { data } = await axiosInstance.get("/forecasting");
+      setForecastData(data);
+    } catch (error) {
+      console.error("Failed to fetch forecast data", error);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery.toLowerCase() === "san") {
+      console.log("searchQuery", searchQuery);
+      setSearchResults(["Santa Hat"]);
+      setOpen(true);
+    }
+  }, [searchQuery]);
 
   return (
     <>
@@ -71,20 +90,7 @@ const Page = () => {
           Demand Forecasting of Inventory items
         </div>
       </div>
-  
-      <div className="w-full rounded-xl border border-app p-2 px-4 gap-6 flex justify-between items-center">
-        <div className="flex-1 bg-app-bg-primary text-app font-semibold text-xl p-2 px-4 rounded-xl">
-          Increasing demand predicted for upcoming months
-        </div>
-        <div className=" flex justify-start items-center gap-4">
-          <Button color="purple" size="sm">
-            Add Stock
-          </Button>
-          <div className="text-app font-semibold text-xs border border-app py-1 px-2 rounded-full">
-            AI Powered
-          </div>
-        </div>
-      </div>
+
       <div className="flex items-center justify-start gap-6">
         {selectedItemName === "" ? (
           <div className="relative">
@@ -100,17 +106,19 @@ const Page = () => {
               <div className="absolute z-20 mt-2 w-80 rounded border overflow-y-auto bg-white text-slate-primary drop-shadow">
                 <div>
                   {searchResults.length > 0 ? (
-                    searchResults.map((item: any) => (
+                    searchResults.map((name: string, index) => (
                       <div
                         onClick={() => {
-                          setSelectedItemId(item.id);
-                          setSelectedItemName(item.name);
+                          setLoading(true);
                           setOpen(false);
+                          setTimeout(() => {
+                            setSelectedItemName(name);
+                          }, 3000);
                         }}
-                        key={item.id}
+                        key={index}
                         className="flex cursor-pointer gap-2 p-2 px-4 text-slate-secondary transition-colors duration-100 ease-in-out hover:bg-gray-50 hover:text-app"
                       >
-                        {item.name}
+                        {name}
                       </div>
                     ))
                   ) : (
@@ -142,15 +150,35 @@ const Page = () => {
           </Button>
         </div>
       </div>
-      <div className="w-full p-6 border rounded-xl flex flex-col justify-start items-start gap-8">
-        <div className="text-slate-primary font-medium text-xl">
-          Demand Forecasting of{" "}
-          <span className="text-app hover:text-app-dark cursor-pointer transition-colors duration-100">
-            Santa Hat
-          </span>
+      {selectedItemName && (
+        <div className="w-full rounded-xl border border-app p-2 px-4 gap-6 flex justify-between items-center">
+          <div className="flex-1 bg-app-bg-primary text-app font-semibold text-xl p-2 px-4 rounded-xl">
+            Increasing demand predicted for upcoming months
+          </div>
+          <div className=" flex justify-start items-center gap-4">
+            <div className="text-app font-semibold text-xs border border-app py-1 px-2 rounded-full">
+              AI Powered
+            </div>
+          </div>
         </div>
-        <LineChartComponent data={data} />
-      </div>
+      )}
+      {selectedItemName ? (
+        <div className="w-full p-6 border rounded-xl flex flex-col justify-start items-start gap-8">
+          <div className="text-slate-primary font-medium text-xl">
+            Demand Forecasting of&nbsp;
+            <span className="text-app hover:text-app-dark cursor-pointer transition-colors duration-100">
+              {selectedItemName}
+            </span>
+          </div>
+          <LineChartComponent data={data} />
+        </div>
+      ) : (
+        <div className="w-full p-6 border rounded-xl flex flex-col justify-start items-start gap-8">
+          <div>
+            {loading ? "Please wait..." : "The forecast will appear here"}
+          </div>
+        </div>
+      )}
     </>
   );
 };
