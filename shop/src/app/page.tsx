@@ -1,7 +1,7 @@
 "use client";
 
 import ItemCard from "@/components/itemCard";
-import axios from "axios";
+import axiosInstance from "@/utils/axiosInstance";
 import { useEffect, useState } from "react";
 
 
@@ -11,7 +11,7 @@ const Page = () => {
 
   const fetchListings = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/listings");
+      const { data } = await axiosInstance.get("/listings");
       setListings(data.listings);
     } catch (error) {
       console.error(error);
