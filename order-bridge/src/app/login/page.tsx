@@ -1,5 +1,5 @@
 "use client";
-import { Button, TextInput } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -46,22 +46,50 @@ const LoginPage = () => {
             </div>
             <div className="mb-12 flex flex-col justify-center items-center gap-1">
               <div className="text-2xl font-semibold text-slate-primary">
-                Please enter your SP API Refresh Token to get started
+                Please enter your SP API credentials to get started
               </div>
             </div>
             <div className="w-96 flex flex-col gap-4 mb-6">
-              <div className="w-full">
-                <TextInput
-                  id="token"
-                  type="text"
-                  placeholder="Enter refresh token"
-                  required
-                  color="primary"
-                  value={token}
-                  onChange={(e) => setToken(e.target.value)}
-                />
+              <div className="w-full flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-1">
+                  <Label>Application Client ID</Label>
+                  <TextInput
+                    id="clientid"
+                    type="text"
+                    placeholder="Enter Client ID"
+                    required
+                    color="primary"
+                  />
+                </div>
+                <div className="w-full flex flex-col gap-1">
+                  <Label>Application Client Secret</Label>
+                  <TextInput
+                    id="clientsecret"
+                    type="text"
+                    placeholder="Enter Client Secret"
+                    required
+                    color="primary"
+                  />
+                </div>
+                <div className="w-full flex flex-col gap-1">
+                  <Label>Refresh Token</Label>
+                  <TextInput
+                    id="token"
+                    type="text"
+                    placeholder="Enter Refresh Token"
+                    required
+                    color="primary"
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                  />
+                </div>
               </div>
-              <Button onClick={setRefreshToken} className="w-full" color={"purple"} size="sm">
+              <Button
+                onClick={setRefreshToken}
+                className="w-full"
+                color={"purple"}
+                size="sm"
+              >
                 Get Started
               </Button>
             </div>
