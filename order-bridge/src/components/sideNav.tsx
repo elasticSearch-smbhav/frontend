@@ -15,9 +15,16 @@ import { Button } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const SideNav = () => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("refresh_token");
+    router.push("/login");
+  };
+
   //   const { user, getRole, setUser, getOrgType, isSuperAdmin } = useAuth();
 
   //   const superAdmin = isSuperAdmin();
@@ -176,7 +183,7 @@ const SideNav = () => {
             adnan@amazon.com
           </div>
         </div>
-        <Button color="transparent" className="border-none">
+        <Button onClick={handleLogout} color="transparent" className="border-none">
           <FontAwesomeIcon
             className="h-full w-4 text-slate-secondary"
             icon={faArrowRightFromBracket}
