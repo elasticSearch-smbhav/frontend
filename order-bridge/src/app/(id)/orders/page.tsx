@@ -1,5 +1,6 @@
 "use client";
 
+import WithAuth from "@/hoc/withAuth";
 import { formatCurrency, formatDate } from "@/utils/helpers";
 import { faBoxOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -268,4 +269,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default WithAuth(Page);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useChatbot } from "@/context/chatbotContext";
+import WithAuth from "@/hoc/withAuth";
 import { Button, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -58,4 +59,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default WithAuth(Page);

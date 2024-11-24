@@ -1,5 +1,6 @@
 "use client";
 
+import WithAuth from "@/hoc/withAuth";
 import { formatCurrency } from "@/utils/helpers";
 import { faWarehouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -239,4 +240,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default WithAuth(Page);

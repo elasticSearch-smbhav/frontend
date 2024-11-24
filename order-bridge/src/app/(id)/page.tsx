@@ -1,5 +1,6 @@
 "use client";
 
+import WithAuth from "@/hoc/withAuth";
 import { faHouse, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Breadcrumb, Button, Datepicker } from "flowbite-react";
@@ -100,4 +101,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default WithAuth(Page);

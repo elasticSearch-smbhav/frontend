@@ -1,13 +1,32 @@
 "use client";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Button, TextInput } from "flowbite-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const LoginPage = () => {
-  const handleLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/amazon`;
+  const router = useRouter();
+  const [showPage, setShowPage] = useState(false);
+
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("refresh_token");
+      if (token) {
+        router.push("/");
+      } else {
+        setShowPage(true);
+      }
+    }
+  }, []);
+
+  const setRefreshToken = () => {
+    localStorage.setItem("refresh_token", token);
+    router.push("/");
   };
 
-  return (
+  return showPage ? (
     <div className="flex h-screen w-screen flex-row">
       <div className="mx-auto flex h-full min-w-[50%] flex-col">
         <div className="flex h-full w-full items-center justify-center">
@@ -26,54 +45,31 @@ const LoginPage = () => {
               </div>
             </div>
             <div className="mb-12 flex flex-col justify-center items-center gap-1">
-              <div className="text-4xl font-semibold text-slate-primary">
-                Login
-              </div>
-              <div className="text-slate-secondary">
-                Welcome! Please login using one of your accounts
+              <div className="text-2xl font-semibold text-slate-primary">
+                Please enter your SP API Refresh Token to get started
               </div>
             </div>
-            <div className="flex flex-col w-full gap-4 mb-6">
+            <div className="w-96 flex flex-col gap-4 mb-6">
               <div className="w-full">
-                <div className="mb-2 block">
-                  <Label htmlFor="email" value="Email" className="text-base" />
-                </div>
                 <TextInput
-                  id="email"
-                  type="email"
-                  placeholder="Enter email"
+                  id="token"
+                  type="text"
+                  placeholder="Enter refresh token"
                   required
                   color="primary"
-                  sizing="sm"
+                  value={token}
+                  onChange={(e) => setToken(e.target.value)}
                 />
               </div>
-              <div className=" w-full">
-                <div className="mb-2 block">
-                  <Label
-                    htmlFor="password"
-                    value="Password"
-                    className="text-base"
-                  />
-                </div>
-                <TextInput
-                  id="password"
-                  type="password"
-                  placeholder="Enter password"
-                  required
-                  color="primary"
-                  sizing="sm"
-                />
-              </div>
-              <Button className="w-full" color={"purple"} size="sm">
-                Login
+              <Button onClick={setRefreshToken} className="w-full" color={"purple"} size="sm">
+                Get Started
               </Button>
             </div>
 
-            <hr className="mb-10 w-full"></hr>
+            <hr className="mb-10 w-full hidden"></hr>
 
-            <div className="flex w-full flex-col gap-4">
+            <div className="w-full flex-col gap-4 hidden">
               <Button
-                onClick={handleLogin}
                 color="light"
                 size="sm"
                 className="flex w-full flex-row items-center justify-center font-medium transition-colors duration-200 ease-in-out hover:ring-1 hover:ring-app focus:ring focus:ring-app"
@@ -123,6 +119,8 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <div className="w-full h-full bg-white"></div>
   );
 };
 

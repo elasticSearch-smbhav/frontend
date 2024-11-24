@@ -1,6 +1,7 @@
 "use client";
 
 import LineChartComponent from "@/components/charts/lineChart";
+import WithAuth from "@/hoc/withAuth";
 import {
     faPaperPlane,
     faRefresh,
@@ -154,4 +155,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default WithAuth(Page);
