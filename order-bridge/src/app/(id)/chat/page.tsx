@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from "react";
 
 const Page = () => {
   const { messages, addMessage } = useChatbot();
-
   const [prompt, setPrompt] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -16,9 +15,39 @@ const Page = () => {
   };
 
   const sendPrompt = async () => {
-    addMessage(prompt);
-    addMessage("I am a chatbot. I don't have the answer to that yet.");
-    setPrompt("");
+    addMessage(prompt); // Add user's prompt to the chat
+    setPrompt(""); // Clear the input field
+
+    // Scroll to the bottom to show the new messages
+    scrollToBottom();
+
+    try {
+      // Send the prompt to the backend API
+      const response = await fetch("http://127.0.0.1:8080/getChatResponse", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+        }),
+      });
+
+      // Check if the response is successful
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Extract the answer from the API response and add it to the chat
+        addMessage(data.answer);
+      } else {
+        addMessage("Sorry, I couldn't fetch an answer at the moment.");
+      }
+    } catch (error) {
+      // In case of an error (e.g., network failure)
+      addMessage("Error: Unable to contact the server.");
+    }
+
+    // Scroll to the bottom to show the response
     scrollToBottom();
   };
 
