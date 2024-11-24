@@ -112,7 +112,7 @@ const MapChartComponent = ({ data }: MapChartProps) => {
     };
   }, []);
 
-  return <div ref={mapRef} style={{ height: "400px", width: "100%" }}></div>;
+  return <div ref={mapRef} style={{ height: "600px", width: "100%" }}></div>;
 };
 
 export default MapChartComponent;

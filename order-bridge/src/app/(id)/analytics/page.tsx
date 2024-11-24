@@ -1,15 +1,18 @@
 "use client";
-import dynamic from 'next/dynamic';
 import BarChartComponent from "@/components/charts/barChart";
 import LineChartComponent from "@/components/charts/lineChart";
 import PieChartComponent from "@/components/charts/pieChart"; // For category/product breakdown
+import WithAuth from "@/hoc/withAuth";
 import { faChartSimple, faRefresh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Breadcrumb, Button, Datepicker } from "flowbite-react";
-import WithAuth from "@/hoc/withAuth";
+import dynamic from "next/dynamic";
 
 // Dynamically import MapChartComponent with SSR disabled
-const MapChartComponent = dynamic(() => import('@/components/charts/mapChart'), { ssr: false });
+const MapChartComponent = dynamic(
+  () => import("@/components/charts/mapChart"),
+  { ssr: false }
+);
 
 interface DataPoint {
   name: string;
@@ -49,7 +52,7 @@ const customerData = [
 ];
 
 const geographicalSalesData = [
-  { name: "New York", lat: 40.7128, lng: -74.0060, value: 5284 },
+  { name: "New York", lat: 40.7128, lng: -74.006, value: 5284 },
   { name: "San Francisco", lat: 37.7749, lng: -122.4194, value: 3420 },
   { name: "Los Angeles", lat: 34.0522, lng: -118.2437, value: 2123 },
 ];
@@ -82,11 +85,11 @@ const Page = () => {
         <div className="flex gap-4">
           <div className="flex items-center justify-center gap-2">
             <div>Start:</div>
-            <Datepicker placeholder="Select start date" />
+            <Datepicker value={null} placeholder="Select start date" />
           </div>
           <div className="flex items-center justify-center gap-2">
             <div>End:</div>
-            <Datepicker placeholder="Select end date" />
+            <Datepicker value={null} placeholder="Select end date" />
           </div>
         </div>
         <Button color="purple" size="sm">
@@ -130,18 +133,20 @@ const Page = () => {
         <LineChartComponent data={totalOrderValue} />
       </div>
 
-      <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
-        <div className="text-slate-primary font-medium text-xl">
-          Sales by Product Category
+      <div className="grid grid-cols-2 gap-4">
+        <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
+          <div className="text-slate-primary font-medium text-xl">
+            Sales by Product Category
+          </div>
+          <PieChartComponent data={productCategoryData} />
         </div>
-        <PieChartComponent data={productCategoryData} />
-      </div>
 
-      <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
-        <div className="text-slate-primary font-medium text-xl">
-          Customer Insights
+        <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
+          <div className="text-slate-primary font-medium text-xl">
+            Customer Insights
+          </div>
+          <PieChartComponent data={customerData} />
         </div>
-        <PieChartComponent data={customerData} />
       </div>
 
       <div className="w-full p-6 border rounded-xl flex flex-col gap-8">
