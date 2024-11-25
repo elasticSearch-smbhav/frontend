@@ -93,6 +93,19 @@ const Page = () => {
           <div className="text-slate-primary text-4xl font-semibold">1</div>
         </div>
       </div>
+      <div className="w-full border border-gray-300 rounded-xl p-4">
+        <div className="text-xl text-slate-secondary font-medium mb-4">
+          Active Marketplaces
+        </div>
+        <div className="flex w-full justify-between items-center p-2">
+          <div className="text-slate-primary text-xl font-semibold">
+            Elastic Shop
+          </div>
+          <Link target="_blank" href={"https://elastic-shop.vercel.app/"}>
+            <Button color="purple">Visit</Button>
+          </Link>
+        </div>
+      </div>
     </>
   );
 };
