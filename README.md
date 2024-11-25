@@ -24,7 +24,7 @@ Ensure you have the following installed on your system:
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/AdnanKhurshid26/frontend
+   git clone https://github.com/elasticSearch-smbhav/frontend
    cd frontend
 
 ## OrderBridge setup
@@ -50,7 +50,7 @@ Ensure you have the following installed on your system:
 
 1. Browse to project
    ```bash
-   cd order-bridge
+   cd shop
 
 2. Installing packages
    ```bash
